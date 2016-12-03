@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="cod3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Emss">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmssCallNumber" Type="int" />
+          <Property Name="CallPriority" Type="int" />
+          <Property Name="RescueSquadNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="CallDateTime" Type="datetime" />
+          <Property Name="EntryDateTime" Type="datetime" />
+          <Property Name="DispatchDateTime" Type="datetime" />
+          <Property Name="EnRouteDateTime" Type="datetime" />
+          <Property Name="OnSceneDateTime" Type="datetime" />
+          <Property Name="CloseDateTime" Type="datetime" />
+          <Property Name="Location" Type="geography" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+        </EntityType>
+        <EntityType Name="Police">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IncidentNumber" Type="int" />
+          <Property Name="ReportNumber" Type="nvarchar(max)" />
+          <Property Name="CallType" Type="nvarchar(max)" />
+          <Property Name="Zone" Type="nvarchar(max)" />
+          <Property Name="CaseDisposition" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="nvarchar(max)" />
+          <Property Name="Subdivision" Type="nvarchar(max)" />
+          <Property Name="CallDateTime" Type="datetime" />
+          <Property Name="EntryDateTime" Type="datetime" />
+          <Property Name="DispatchDateTime" Type="datetime" />
+          <Property Name="EnRouteDateTime" Type="datetime" />
+          <Property Name="OnSceneDateTime" Type="datetime" />
+          <Property Name="CloseDateTime" Type="datetime" />
+          <Property Name="Location" Type="geography" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+        </EntityType>
+        <EntityContainer Name="cod3ModelStoreContainer">
+          <EntitySet Name="Emss" EntityType="Self.Emss" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Police" EntityType="Self.Police" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cod3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="cod3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Emss" EntityType="cod3Model.Ems" />
+          <EntitySet Name="Police" EntityType="cod3Model.Police" />
+        </EntityContainer>
+        <EntityType Name="Ems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmssCallNumber" Type="Int32" />
+          <Property Name="CallPriority" Type="Int32" />
+          <Property Name="RescueSquadNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CallDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EntryDateTime" Type="DateTime" Precision="3" />
+          <Property Name="DispatchDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EnRouteDateTime" Type="DateTime" Precision="3" />
+          <Property Name="OnSceneDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CloseDateTime" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="Geography" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+        </EntityType>
+        <EntityType Name="Police">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IncidentNumber" Type="Int32" />
+          <Property Name="ReportNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CallType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Zone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CaseDisposition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Subdivision" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CallDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EntryDateTime" Type="DateTime" Precision="3" />
+          <Property Name="DispatchDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EnRouteDateTime" Type="DateTime" Precision="3" />
+          <Property Name="OnSceneDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CloseDateTime" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="Geography" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cod3ModelStoreContainer" CdmEntityContainer="cod3Entities">
+          <EntitySetMapping Name="Emss">
+            <EntityTypeMapping TypeName="cod3Model.Ems">
+              <MappingFragment StoreEntitySet="Emss">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
+                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
+                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
+                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
+                <ScalarProperty Name="RescueSquadNumber" ColumnName="RescueSquadNumber" />
+                <ScalarProperty Name="CallPriority" ColumnName="CallPriority" />
+                <ScalarProperty Name="EmssCallNumber" ColumnName="EmssCallNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Police">
+            <EntityTypeMapping TypeName="cod3Model.Police">
+              <MappingFragment StoreEntitySet="Police">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
+                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
+                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
+                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
+                <ScalarProperty Name="Subdivision" ColumnName="Subdivision" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="CaseDisposition" ColumnName="CaseDisposition" />
+                <ScalarProperty Name="Zone" ColumnName="Zone" />
+                <ScalarProperty Name="CallType" ColumnName="CallType" />
+                <ScalarProperty Name="ReportNumber" ColumnName="ReportNumber" />
+                <ScalarProperty Name="IncidentNumber" ColumnName="IncidentNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmsbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
