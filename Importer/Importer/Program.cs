@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Spatial;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,8 +36,8 @@ namespace Importer
                     EnRouteDateTime = x.ElementAtOrDefault(6).SafeParseDate(),
                     OnSceneDateTime = x.ElementAtOrDefault(7).SafeParseDate(),
                     CloseDateTime = x.ElementAtOrDefault(8).SafeParseDate(),
-                    Latitude = Convert.ToDouble(x.ElementAtOrDefault(9).SafeParseDouble()),
-                    Longitude = Convert.ToDouble(x.ElementAtOrDefault(10).SafeParseDouble())
+                    Latitude = x.ElementAtOrDefault(9)?.Trim(),
+                    Longitude = x.ElementAtOrDefault(10)?.Trim()
                 });
 
             insertEms(arrayLines);
@@ -52,54 +54,57 @@ namespace Importer
 
         private static void insertEms(IEnumerable<Ems> emsData)
         {
-            var lines = emsData.ToList();
-            var counter = 0;
-            var taking = 1000;
-            var itemsToInsert = lines.Take(taking);
-
-            //using (var ctx = new cod3Entities())
-            using(var conn = new SqlConnection(Properties.Settings.Default.ConnString))
+            using(var conn = new SqlBulkCopy(Properties.Settings.Default.ConnString))
             {
-                conn.Open();
-                var trans = conn.BeginTransaction();
-                string sql = @"insert Ems(EmsCallNumber, CallPriority, RescueSquadNumber, CallDateTime, EntryDateTime,
-DispatchDateTime, EnRouteDateTime, OnSceneDateTime, CloseDateTime, Latitude, Longitude)
-values(@EmsCallNumber, @CallPriority, @RescueSquadNumber, @CallDateTime, @EntryDateTime,
-@DispatchDateTime, @EnRouteDateTime, @OnSceneDateTime, @CloseDateTime, @Latitude, @Longitude)";
-                //ctx.Ems.Add(item);
-                conn.Execute(sql,lines, trans);
-                trans.Commit();
-                //                var trans = conn.BeginTransaction();
-                //              //  ctx.Ems.AddRange(itemsToInsert);
-                //                foreach (var item in itemsToInsert)
-                //                {
-                //                   // conn.Insert(item);
-                //                    string sql = @"bulk insert into Ems values(@EmsCallNumber, @CallPriority, @RescueSquadNumber, @CallDateTime, @EntryDateTime,
-                //@DispatchDateTime, @EnRouteDateTime, @OnSceneDateTime, @CloseDateTime, @Latitude, @Longitude)";
-                //                    //ctx.Ems.Add(item);
-                //                    conn.Execute(sql, new
-                //                    {
-                //                        item.EmsCallNumber,
-                //                        item.CallPriority,
-                //                        item.RescueSquadNumber,
-                //                        item.CallDateTime,
-                //                        item.EntryDateTime,
-                //                        item.DispatchDateTime,
-                //                        item.EnRouteDateTime,
-                //                        item.OnSceneDateTime,
-                //                        item.CloseDateTime,
-                //                        item.Latitude,
-                //                        item.Longitude
-                //                    ,trans});
-                //                }
-                //             //   ctx.SaveChanges();
-                //                for (var i = 0; i < lines.Count() / taking; i++)
-                //                {
-                //                   // ctx.Ems.AddRange(lines.Skip(counter).Take(taking));
-                //                    counter += taking;
-                //                   // ctx.SaveChanges();
-                //                }
+                conn.BulkCopyTimeout = int.MaxValue;
+                var table = new DataTable("Ems");
+                table.Columns.Add(new DataColumn
+                {
+                    AllowDBNull = false,
+                    AutoIncrement = true,
+                    DataType = typeof(int),
+                    ColumnName = "Id"
+                });
+                table.Columns.Add("EmsCallNumber", typeof(int));
+                table.Columns.Add("CallPriority", typeof(int));
+                table.Columns.Add( GetCol("RescueSquadNumber", typeof(string), true));
+                table.Columns.Add( GetCol("CallDateTime", typeof(DateTime), true));
+                table.Columns.Add( GetCol("EntryDateTime", typeof(DateTime), true));
+                table.Columns.Add( GetCol("DispatchDateTime", typeof(DateTime), true));
+                table.Columns.Add( GetCol("EnRouteDateTime", typeof(DateTime), true));
+                table.Columns.Add( GetCol("OnSceneDateTime", typeof(DateTime), true));
+                table.Columns.Add( GetCol("CloseDateTime", typeof(DateTime), true));
+                table.Columns.Add(GetCol("Location", typeof(DbGeography), true));
+                table.Columns.Add( GetCol("Latitude", typeof(string), true));
+                table.Columns.Add(GetCol("Longitude", typeof(string), true));
+
+                conn.DestinationTableName = "Ems";
+                foreach (var item in emsData)
+                    table.Rows.Add(null, item.EmsCallNumber, item.CallPriority, item.RescueSquadNumber, item.CallDateTime,
+                        item.EntryDateTime, item.DispatchDateTime, item.EnRouteDateTime, item.OnSceneDateTime,
+                        item.CloseDateTime,null,item.Latitude, item.Longitude
+                        );
+
+                conn.WriteToServer(table);
             }
+        }
+
+        private static DataColumn GetCol(string name, Type type, bool AllowNull)
+        {
+            return  new DataColumn()
+            {
+                AllowDBNull = AllowNull,
+                ColumnName = name,
+                DataType = type
+
+            };
+
+            var col = new DataColumn
+            {
+                AllowDBNull = true,
+                ColumnName = "",
+                DataType = typeof(DateTime)
+            };
         }
     }
 }
