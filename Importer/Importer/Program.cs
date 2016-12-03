@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Importer.Models;
+using Dapper;
+using Dapper.Contrib;
+using System.Data.SqlClient;
+using Dapper.Contrib.Extensions;
 
 namespace Importer
 {
@@ -53,20 +57,48 @@ namespace Importer
             var taking = 1000;
             var itemsToInsert = lines.Take(taking);
 
-            using (var ctx = new cod3Entities())
+            //using (var ctx = new cod3Entities())
+            using(var conn = new SqlConnection(Properties.Settings.Default.ConnString))
             {
-              //  ctx.Ems.AddRange(itemsToInsert);
-                foreach (var item in itemsToInsert)
-                {
-                    ctx.Ems.Add(item);
-                }
-                ctx.SaveChanges();
-                for (var i = 0; i < lines.Count() / taking; i++)
-                {
-                    ctx.Ems.AddRange(lines.Skip(counter).Take(taking));
-                    counter += taking;
-                    ctx.SaveChanges();
-                }
+                conn.Open();
+                var trans = conn.BeginTransaction();
+                string sql = @"insert Ems(EmsCallNumber, CallPriority, RescueSquadNumber, CallDateTime, EntryDateTime,
+DispatchDateTime, EnRouteDateTime, OnSceneDateTime, CloseDateTime, Latitude, Longitude)
+values(@EmsCallNumber, @CallPriority, @RescueSquadNumber, @CallDateTime, @EntryDateTime,
+@DispatchDateTime, @EnRouteDateTime, @OnSceneDateTime, @CloseDateTime, @Latitude, @Longitude)";
+                //ctx.Ems.Add(item);
+                conn.Execute(sql,lines, trans);
+                trans.Commit();
+                //                var trans = conn.BeginTransaction();
+                //              //  ctx.Ems.AddRange(itemsToInsert);
+                //                foreach (var item in itemsToInsert)
+                //                {
+                //                   // conn.Insert(item);
+                //                    string sql = @"bulk insert into Ems values(@EmsCallNumber, @CallPriority, @RescueSquadNumber, @CallDateTime, @EntryDateTime,
+                //@DispatchDateTime, @EnRouteDateTime, @OnSceneDateTime, @CloseDateTime, @Latitude, @Longitude)";
+                //                    //ctx.Ems.Add(item);
+                //                    conn.Execute(sql, new
+                //                    {
+                //                        item.EmsCallNumber,
+                //                        item.CallPriority,
+                //                        item.RescueSquadNumber,
+                //                        item.CallDateTime,
+                //                        item.EntryDateTime,
+                //                        item.DispatchDateTime,
+                //                        item.EnRouteDateTime,
+                //                        item.OnSceneDateTime,
+                //                        item.CloseDateTime,
+                //                        item.Latitude,
+                //                        item.Longitude
+                //                    ,trans});
+                //                }
+                //             //   ctx.SaveChanges();
+                //                for (var i = 0; i < lines.Count() / taking; i++)
+                //                {
+                //                   // ctx.Ems.AddRange(lines.Skip(counter).Take(taking));
+                //                    counter += taking;
+                //                   // ctx.SaveChanges();
+                //                }
             }
         }
     }
