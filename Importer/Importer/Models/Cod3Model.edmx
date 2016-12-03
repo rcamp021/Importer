@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="cod3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="cod3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Emss">
           <Key>
             <PropertyRef Name="Id" />
@@ -49,14 +49,11 @@
           <EntitySet Name="Emss" EntityType="Self.Emss" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Police" EntityType="Self.Police" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cod3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="cod3Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Emss" EntityType="cod3Model.Ems" />
-          <EntitySet Name="Police" EntityType="cod3Model.Police" />
-        </EntityContainer>
         <EntityType Name="Ems">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,6 +94,10 @@
           <Property Name="Latitude" Type="Double" />
           <Property Name="Longitude" Type="Double" />
         </EntityType>
+        <EntityContainer Name="cod3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Emss" EntityType="Self.Ems" />
+          <EntitySet Name="Police" EntityType="Self.Police" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -106,42 +107,42 @@
           <EntitySetMapping Name="Emss">
             <EntityTypeMapping TypeName="cod3Model.Ems">
               <MappingFragment StoreEntitySet="Emss">
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
-                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
-                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
-                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
-                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
-                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
-                <ScalarProperty Name="RescueSquadNumber" ColumnName="RescueSquadNumber" />
-                <ScalarProperty Name="CallPriority" ColumnName="CallPriority" />
-                <ScalarProperty Name="EmssCallNumber" ColumnName="EmssCallNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmssCallNumber" ColumnName="EmssCallNumber" />
+                <ScalarProperty Name="CallPriority" ColumnName="CallPriority" />
+                <ScalarProperty Name="RescueSquadNumber" ColumnName="RescueSquadNumber" />
+                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
+                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
+                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
+                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Police">
             <EntityTypeMapping TypeName="cod3Model.Police">
               <MappingFragment StoreEntitySet="Police">
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
-                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
-                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
-                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
-                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
-                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
-                <ScalarProperty Name="Subdivision" ColumnName="Subdivision" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="CaseDisposition" ColumnName="CaseDisposition" />
-                <ScalarProperty Name="Zone" ColumnName="Zone" />
-                <ScalarProperty Name="CallType" ColumnName="CallType" />
-                <ScalarProperty Name="ReportNumber" ColumnName="ReportNumber" />
-                <ScalarProperty Name="IncidentNumber" ColumnName="IncidentNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IncidentNumber" ColumnName="IncidentNumber" />
+                <ScalarProperty Name="ReportNumber" ColumnName="ReportNumber" />
+                <ScalarProperty Name="CallType" ColumnName="CallType" />
+                <ScalarProperty Name="Zone" ColumnName="Zone" />
+                <ScalarProperty Name="CaseDisposition" ColumnName="CaseDisposition" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Subdivision" ColumnName="Subdivision" />
+                <ScalarProperty Name="CallDateTime" ColumnName="CallDateTime" />
+                <ScalarProperty Name="EntryDateTime" ColumnName="EntryDateTime" />
+                <ScalarProperty Name="DispatchDateTime" ColumnName="DispatchDateTime" />
+                <ScalarProperty Name="EnRouteDateTime" ColumnName="EnRouteDateTime" />
+                <ScalarProperty Name="OnSceneDateTime" ColumnName="OnSceneDateTime" />
+                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -77,19 +77,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="csvs\EMS.csv" />
+    <None Include="csvs\Police_Calls_for_Service.csv" />
     <EntityDeploy Include="Models\Cod3Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Cod3Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="csvs\EMS.csv" />
-    <None Include="csvs\Police_Calls_for_Service.csv" />
     <None Include="Models\Cod3Model.edmx.diagram">
       <DependentUpon>Cod3Model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models\Cod3Model.Context.tt">
@@ -103,10 +107,6 @@
       <LastGenOutput>Cod3Model.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
